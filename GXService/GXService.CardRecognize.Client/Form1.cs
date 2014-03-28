@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using GXService.CardRecognize.Client.BroadcastServiceReference;
 using GXService.CardRecognize.Client.CardRecognizeServiceReference;
@@ -19,212 +16,143 @@ namespace GXService.CardRecognize.Client
         private readonly CardsRecognizerClient _proxyRecognize = new CardsRecognizerClient();
         private readonly BroadcastClient _proxyBroadcast;
         private readonly BroadcastCallback _broadcastCallback = new BroadcastCallback();
-        private string _cardsDisplay = "";
+
+        //头墩、中墩、尾墩牌框中心点
+        private readonly Point _headCenterPoint = new Point(500, 270);
+        private readonly Point _bodyCenterPoint = new Point(480, 370);
+        private readonly Point _tailCenterPoint = new Point(440, 460);
+
+        //十三张手牌区域
+        private readonly Rectangle _rectSsz = new Rectangle(290, 510, 300, 50);
+
+        //其他友方牌型分析结果
+        private readonly List<CardTypeResult> _friendCardTypeResults = new List<CardTypeResult>();
+
+        private int index = 0;
+
+        private Bitmap bmpSave;
 
         public Form1()
         {
             InitializeComponent();
 
             _proxyBroadcast = new BroadcastClient(new InstanceContext(_broadcastCallback));
+            _broadcastCallback.BroadcastData += args =>
+            {
+                var resultCardType = args.Data.Deserialize() as CardTypeResult;
 
-            _proxyBroadcast.ClientCredentials.UserName.UserName = "show";
-            _proxyBroadcast.ClientCredentials.UserName.Password = "test";
+                if (!_friendCardTypeResults.Contains(resultCardType, new CardTypeResultComparer()))
+                {
+                    _friendCardTypeResults.Add(resultCardType);   
+                }
 
-            _proxyRecognize.ClientCredentials.UserName.UserName = "show";
-            _proxyRecognize.ClientCredentials.UserName.Password = "test";
-        }
+                //如果友方牌型全部都接受完
+                if (_friendCardTypeResults.Count == 2)
+                {
+                    
+                }
+            };
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            e.Graphics.DrawString(_cardsDisplay, new Font("Tahoma", 8, FontStyle.Bold), Brushes.Red, 0, 0);
+            _proxyRecognize.Start();
+            _proxyBroadcast.Connect();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _proxyRecognize.Open();
+            AutoPlay();
+        }
 
-            //#region 打开应用程序
-            //var process = Process.Start(@"D:\Program Files\拇指通科技\赖子山庄\赖子山庄.exe");
-            //process.WaitForInputIdle();
-            //Thread.Sleep(10000);
-            //#endregion
-
-
-            //#region 登录
-
-            //var mainWindows = @"赖子山庄登录".FindWindow(); //K赖子山庄1
-            //var childWindows = mainWindows.GetChildWindows();
-            //var userWnd = childWindows.First(w =>
-            //                                  User32Api.IsWindowVisible(w) &&
-            //                                  w.GetClassName() == "ThunderRT6ComboBox");//TreeView20WndClass,SysTreeView32,ThunderRT6ComboBox
-
-            //userWnd.SetWindowText("tf_846");
-            //var passwordWnd = childWindows.First(w =>
-            //                                  User32Api.IsWindowVisible(w) &&
-            //                                  w.GetClassName() == "ThunderRT6TextBox");//TreeView20WndClass,SysTreeView32,ThunderRT6ComboBox
-
-            //passwordWnd.SetWindowText("q123456789");
-
-
-            //var loginBmp = Image.FromFile(@"login.bmp");
-
-
-            //mainWindows.SetForeground();
-            //_proxyRecognize.Match(mainWindows.Capture().Serialize(), loginBmp.Serialize(), (float)0.8).Center().MouseLClick(mainWindows);
-
-
-            //#endregion
-
-
-            #region 进房间
-            //Thread.Sleep(10000);
-            var pkpBmp = Image.FromFile(@"扑克室.bmp");
-            var mainRoomWindows = @"赖子山庄".FindWindow();
-            mainRoomWindows.SetForeground();
-            var childRoomWindows = mainRoomWindows.GetChildWindows();
-            var rectClick = new Rectangle();
-            foreach (var w in childRoomWindows)
-            {
-                var bmpTmp = w.GetWindowRect().Capture();
-                rectClick = _proxyRecognize.Match(bmpTmp.Serialize(), pkpBmp.Serialize(), (float)0.8);
-                if (!rectClick.IsEmpty)
-                {
-                    break;
-                }
-            }
-
-            (rectClick.Center() + new Size(0, 20)).MouseLClick(mainRoomWindows);
-
-            #endregion
-
-
-            //var itemText = treeView.GetItemText(treeView.GetRootItem());
-
-            //var items = new List<IntPtr>();
-            //treeView.SearchChildItem(treeView.GetRootItem(), "计算机", ref items);
-            //treeView.ItemClick(items[0], new Size());
-
-            return;
-
-
-
+        private void AutoPlay()
+        {
             try
             {
-                //_broadcastCallback.BroadcastData += args => rtbAllMessages.Text += args.Message + @"\r\n";
-                _proxyBroadcast.Connect();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.InnerException == null ? ex.ToString() : ex.InnerException.ToString());
-            }
+                //查找游戏牌局窗口并抓取图片进行识别分析
+                var wndGame = "thirtn".FindWindow();
+                //var bmp = wndGame.Capture();
 
-            try
-            {
-
-                var bmp = Image.FromFile(@"login.bmp") as Bitmap;
-                if (null == bmp || _proxyRecognize.ClientCredentials == null)
+                var bmp = Image.FromFile(@"testhalf111.bmp") as Bitmap;
+                if (null == bmp)
                 {
                     return;
                 }
 
-                //var process = Process.Start(@"D:\Program Files\拇指通科技\赖子山庄\赖子山庄.exe");
-                //process.WaitForInputIdle();
-                //Thread.Sleep(5000);
-                //var wndBmp = process.MainWindowHandle.Capture();
+                //var fileName = string.Format("{0}.bmp", index++);
+                //while (!File.Exists(fileName))
+                //{
+                //    fileName = string.Format("{0}.bmp", index++);
+                //}
 
-                var wnd = "赖子山庄".FindWindow();
-                if (wnd == IntPtr.Zero)
-                {
-                    MessageBox.Show("找不到赖子山庄窗口");
-                    return;
-                }
-                var childWnds = wnd.GetChildWindows();
-                var index = 0;
-                childWnds.ForEach(wndChild => wndChild.GetWindowRect().Capture().Save(string.Format("{0}.bmp", index++)));
-
-                return;
-
-                wnd.SetForeground();
-                //wnd = User32Api.FindWindow("Edit", null);
-                var wndBmp = wnd.GetWindowRect().Capture();
-
-                wndBmp.Save("ffff.bmp");
-                //wndBmp.Clone(new Rectangle{X=8,Y=173,Width=59,Height=24}, wndBmp.PixelFormat).Save("eeee.bmp");
-                //var wndBmp = Image.FromFile("qqq.bmp") as Bitmap;
-
-                var beginTime = DateTime.Now.Ticks;
-                var rect = _proxyRecognize.Match(wndBmp.Serialize(), bmp.Serialize(), (float) 0.84);
-                var endTime = DateTime.Now.Ticks;
-                var t = new TimeSpan(endTime - beginTime);
-
-                using (var fs = new FileStream("time.txt", FileMode.Create))
-                {
-                    using (var sw = new StreamWriter(fs))
-                    {
-                        sw.WriteLine(string.Format("{0}秒", t.Seconds));
-                    }
-                }
-                wnd.SetForeground();
-                rect.Center().MouseLClick(wnd);
-                rect.Center().MouseLClick(wnd);
-                //(rect.Center() + new Size(rect.Width, 0)).MouseLClick(wnd);
-                //WinIoLab.Singleton.KeyPress(new List<Keys> {Keys.T, Keys.E, Keys.S, Keys.T, Keys.Space});
-
-                wndBmp.Clone(rect, wndBmp.PixelFormat).Save("rect.bmp");
-                Thread.Sleep(5000);
-
-                return;
+                //bmp.Save(fileName);
+                //return;
                 var result = _proxyRecognize.Recognize(new RecoginizeData
-                    {
-                        GameTypeTemplate = GameTemplateType.斗地主手牌,
-                        CardsBitmap = bmp.Clone(new Rectangle(280, 590, 400, 50), bmp.PixelFormat).Serialize()
-                    });
-
-                var begin = DateTime.Now;
-                //MouseInputManager.Click(514, 396);
-
-                var cardsTest = new CardsTest();
-                var cards = cardsTest.GetNextPlayerCards(13);
-                cards = result.Result.Take(13).ToList();
-                var resultParseType = _proxyRecognize.ParseCardType(cards.ToArray());
-                var end = DateTime.Now;
-
-                using (var fs = new FileStream("result.txt", FileMode.Create))
                 {
-                    using (var sw = new StreamWriter(fs))
+                    CardsBitmap = bmp.Clone(_rectSsz, bmp.PixelFormat).Serialize()
+                });
+
+                string text = "";
+                result.Result.ToList().ForEach(card => text += "(" + card.Num + "," + card.Color + ")");
+
+                var resultParseType = _proxyRecognize.ParseCardType(result.Result);
+
+                //_proxyBroadcast.Broadcast(resultParseType.Serialize());
+                //return;
+                resultParseType.CardTypeHead
+                    .Cards
+                    .ToList()
+                    .ForEach(card =>
                     {
-                        var resultDisplay = "";
-                        cards.ForEach(card => resultDisplay += "{" + card.Color + "," + card.Num + "}");
-                        sw.WriteLine(resultDisplay);
+                        var tmpRect = new Rectangle(new Point(card.Rect.X + _rectSsz.X, card.Rect.Y + _rectSsz.Y),
+                            card.Rect.Size);
 
-                        var tmp = "";
+                        //将牌选出来
+                        tmpRect.Center().MouseLClick(wndGame);
+                    });
+                //所有头墩牌被点出，需要点击头墩框，将牌放到头墩框中
+                _headCenterPoint.MouseLClick(wndGame);
 
-                        resultParseType.CardTypeHead
-                                       .Cards
-                                       .ToList()
-                                       .ForEach(card => tmp += "{" + card.Color + "," + card.Num + "}");
-                        tmp += "(" + resultParseType.CardTypeHead.CardTypeEm + ")   ";
+                resultParseType.CardTypeMiddle
+                    .Cards
+                    .ToList()
+                    .ForEach(card =>
+                    {
+                        var tmpRect = new Rectangle(new Point(card.Rect.X + _rectSsz.X, card.Rect.Y + _rectSsz.Y),
+                            card.Rect.Size);
 
-                        resultParseType.CardTypeMiddle
-                                       .Cards
-                                       .ToList()
-                                       .ForEach(card => tmp += "{" + card.Color + "," + card.Num + "}");
-                        tmp += "(" + resultParseType.CardTypeMiddle.CardTypeEm + ")   ";
+                        //将牌选出来
+                        tmpRect.Center().MouseLClick(wndGame);
+                    });
+                //所有中墩牌被点出，需要点击中墩框，将牌放到中墩框中
+                _bodyCenterPoint.MouseLClick(wndGame);
 
-                        resultParseType.CardTypeTail
-                                       .Cards
-                                       .ToList()
-                                       .ForEach(card => tmp += "{" + card.Color + "," + card.Num + "}");
-                        tmp += "(" + resultParseType.CardTypeTail.CardTypeEm + ")";
+                resultParseType.CardTypeTail
+                    .Cards
+                    .ToList()
+                    .ForEach(card =>
+                    {
+                        var tmpRect = new Rectangle(new Point(card.Rect.X + _rectSsz.X, card.Rect.Y + _rectSsz.Y),
+                            card.Rect.Size);
 
-                        sw.WriteLine(tmp);
-                    }
-                }
+                        //将牌选出来
+                        tmpRect.Center().MouseLClick(wndGame);
+                    });
+                //所有尾墩牌被点出，需要点击尾墩框，将牌放到尾墩框中
+                _tailCenterPoint.MouseLClick(wndGame);
             }
-            catch (Exception ex)
+            catch (FaultException ex)
             {
                 MessageBox.Show(ex.InnerException == null ? ex.ToString() : ex.InnerException.ToString());
             }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var fileName = string.Format("{0}.bmp", index++);
+            while (File.Exists(fileName))
+            {
+                fileName = string.Format("{0}.bmp", index++);
+            }
+
+            bmpSave.Save(fileName);
         }
     }
 
@@ -283,11 +211,11 @@ namespace GXService.CardRecognize.Client
 
     class BroadcastArgs : EventArgs
     {
-        public string Message { get; private set; }
+        public byte[] Data { get; private set; }
 
-        public BroadcastArgs(string message)
+        public BroadcastArgs(byte[] data)
         {
-            Message = message;
+            Data = data;
         }
     }
 
@@ -302,13 +230,117 @@ namespace GXService.CardRecognize.Client
             var handler = BroadcastData;
             if (handler != null)
             {
-                handler(new BroadcastArgs(Encoding.UTF8.GetString(data)));
+                handler(new BroadcastArgs(data));
             }
         }
 
         public void OnDataBroadcast(byte[] data)
         {
             OnBroadcastData(data);
+        }
+    }
+
+    class CardTypeResultComparer : IEqualityComparer<CardTypeResult>
+    {
+        private readonly CardTypeComparer _comparer = new CardTypeComparer();
+
+        public bool Equals(CardTypeResult x, CardTypeResult y)
+        {
+            //Check whether the compared objects reference the same data.
+            if (ReferenceEquals(x, y)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                return false;
+
+            //Check whether the products' properties are equal.
+            return _comparer.Equals(x.CardTypeHead, y.CardTypeHead) 
+                && _comparer.Equals(x.CardTypeMiddle, y.CardTypeMiddle) 
+                && _comparer.Equals(x.CardTypeTail, y.CardTypeTail);
+        }
+
+        public int GetHashCode(CardTypeResult c)
+        {
+            //Check whether the object is null
+            if (ReferenceEquals(c, null)) return 0;
+
+            //Calculate the hash code for the product.
+            return _comparer.GetHashCode(c.CardTypeHead) ^
+                   _comparer.GetHashCode(c.CardTypeMiddle) ^
+                   _comparer.GetHashCode(c.CardTypeTail);
+        }
+    }
+
+    class CardTypeComparer : IEqualityComparer<CardType>
+    {
+        private readonly ListValueComparer<Card> _cardsValueComparer = new ListValueComparer<Card>(new CardNoRectComparer()); 
+
+        public bool Equals(CardType x, CardType y)
+        {
+            //Check whether the compared objects reference the same data.
+            if (ReferenceEquals(x, y)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                return false;
+
+            //Check whether the products' properties are equal.
+            return _cardsValueComparer.Equals(x.Cards.ToList(), y.Cards.ToList());
+        }
+
+        public int GetHashCode(CardType c)
+        {
+            return _cardsValueComparer.GetHashCode(c.Cards.ToList());
+        }
+    }
+
+    class CardFullComparer : IEqualityComparer<Card>
+    {
+        public bool Equals(Card x, Card y)
+        {
+            //Check whether the compared objects reference the same data.
+            if (ReferenceEquals(x, y)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                return false;
+
+            //Check whether the products' properties are equal.
+            return x.Num == y.Num && x.Color == y.Color && x.Rect == y.Rect;
+        }
+
+        public int GetHashCode(Card c)
+        {
+            //Check whether the object is null
+            if (ReferenceEquals(c, null)) return 0;
+
+            //Calculate the hash code for the product.
+            return c.Num.GetHashCode() ^ c.Color.GetHashCode() ^ c.Rect.GetHashCode();
+        }
+    }
+
+    class CardNoRectComparer : IEqualityComparer<Card>
+    {
+        public bool Equals(Card x, Card y)
+        {
+            //Check whether the compared objects reference the same data.
+            if (ReferenceEquals(x, y)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                return false;
+
+            //Check whether the products' properties are equal.
+            return x.Num == y.Num && x.Color == y.Color;
+        }
+
+        public int GetHashCode(Card c)
+        {
+            //Check whether the object is null
+            if (ReferenceEquals(c, null)) return 0;
+
+            //Calculate the hash code for the product.
+            return c.Num.GetHashCode() ^ c.Color.GetHashCode();
         }
     }
 }

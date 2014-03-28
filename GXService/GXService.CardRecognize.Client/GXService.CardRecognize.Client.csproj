@@ -130,12 +130,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\BroadcastServiceReference\GXService.Broadcast1.wsdl" />
-    <None Include="Service References\BroadcastServiceReference\service1.wsdl" />
-    <None Include="Service References\BroadcastServiceReference\service2.xsd">
+    <None Include="Service References\BroadcastServiceReference\GXService.Broadcast.wsdl" />
+    <None Include="Service References\BroadcastServiceReference\service.wsdl" />
+    <None Include="Service References\BroadcastServiceReference\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\BroadcastServiceReference\service21.xsd">
+    <None Include="Service References\BroadcastServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\CardRecognizeServiceReference\GXService.CardRecognize.Client.CardRecognizeServiceReference.CardTypeResult.datasource">
@@ -144,17 +144,17 @@
     <None Include="Service References\CardRecognizeServiceReference\GXService.CardRecognize.Client.CardRecognizeServiceReference.RecognizeResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\CardRecognizeServiceReference\GXService.CardRecognize.Contract2.xsd">
+    <None Include="Service References\CardRecognizeServiceReference\GXService.CardRecognize.Contract.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\CardRecognizeServiceReference\GXService.CardRecognize.Contract21.xsd">
+    <None Include="Service References\CardRecognizeServiceReference\GXService.CardRecognize.Contract1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\CardRecognizeServiceReference\service1.wsdl" />
-    <None Include="Service References\CardRecognizeServiceReference\service2.xsd">
+    <None Include="Service References\CardRecognizeServiceReference\service.wsdl" />
+    <None Include="Service References\CardRecognizeServiceReference\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\CardRecognizeServiceReference\service21.xsd">
+    <None Include="Service References\CardRecognizeServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\CardRecognizeServiceReference\System.Drawing.xsd">
@@ -162,7 +162,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -195,18 +197,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\CardRecognizeServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CardRecognizeServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CardRecognizeServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\BroadcastServiceReference\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +204,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\BroadcastServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CardRecognizeServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CardRecognizeServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CardRecognizeServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

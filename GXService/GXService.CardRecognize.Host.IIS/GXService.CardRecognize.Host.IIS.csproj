@@ -17,8 +17,8 @@
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -71,6 +71,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\CardRecognize.pubxml" />
     <None Include="Properties\PublishProfiles\GXService.CardRecognize.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -80,10 +81,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GXService.Authentication\GXService.Authentication.csproj">
-      <Project>{6a0adfac-4f85-4673-9f1b-5773674b6093}</Project>
-      <Name>GXService.Authentication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GXService.CardRecognize.Contract\GXService.CardRecognize.Contract.csproj">
       <Project>{7568639e-a449-45c6-bf82-ce7ed1d7fcd6}</Project>
       <Name>GXService.CardRecognize.Contract</Name>

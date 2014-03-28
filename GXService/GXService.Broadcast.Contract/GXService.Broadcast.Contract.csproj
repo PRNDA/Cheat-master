@@ -41,8 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientInfo.cs" />
     <Compile Include="IBroadcast.cs" />
+    <Compile Include="IBroadcastCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoomInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GXService.Utils\GXService.Utils.csproj">
+      <Project>{2abb0921-616d-4bb9-952a-a46b06a15d47}</Project>
+      <Name>GXService.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

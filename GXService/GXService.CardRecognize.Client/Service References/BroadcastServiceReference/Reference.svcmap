@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost/GXService/Broadcast/BroadcastService.svc/BroadcastMex/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://localhost:4502/GXService/BroadcastService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="d6cc86cb-a69c-48e4-b8c4-0801389bfa35" SourceId="1" SourceUrl="net.tcp://localhost/GXService/Broadcast/BroadcastService.svc/BroadcastMex/mex" />
-    <MetadataFile FileName="GXService.Broadcast1.wsdl" MetadataType="Wsdl" ID="c787b49e-d063-4cc4-a41d-747876950fba" SourceId="1" SourceUrl="net.tcp://localhost/GXService/Broadcast/BroadcastService.svc/BroadcastMex/mex" />
-    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="2ee6dee2-1205-4d25-a9bf-5865bd4e9892" SourceId="1" SourceUrl="net.tcp://localhost/GXService/Broadcast/BroadcastService.svc/BroadcastMex/mex" />
-    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="667adf2c-21e3-41cf-9412-0fb4816c5dbf" SourceId="1" SourceUrl="net.tcp://localhost/GXService/Broadcast/BroadcastService.svc/BroadcastMex/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ebf8c9dd-0666-41f8-8b59-b220f15d2563" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/BroadcastService/mex" />
+    <MetadataFile FileName="GXService.Broadcast.wsdl" MetadataType="Wsdl" ID="a38f0f60-2bf4-4418-b137-ddfeecafd879" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/BroadcastService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="24177d8e-1a5b-429e-8cef-b91a776916c2" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/BroadcastService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="a910fb02-7a89-422e-b0f7-d803c75adb85" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/BroadcastService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

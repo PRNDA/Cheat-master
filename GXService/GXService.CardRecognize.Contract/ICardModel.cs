@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Linq;
@@ -53,6 +54,9 @@ namespace GXService.CardRecognize.Contract
 
         [DataMember]
         public CardColor Color { get; set; }
+
+        [DataMember]
+        public Rectangle Rect { get; set; }
         
         public override string ToString()
         {

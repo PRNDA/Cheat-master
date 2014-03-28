@@ -73,6 +73,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\Broadcast.pubxml" />
     <None Include="Properties\PublishProfiles\GXService.Broadcast.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

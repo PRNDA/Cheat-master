@@ -139,4 +139,72 @@ namespace GXService.Utils
             return new User32Api.RectApi {left = rect.Left, right = rect.Right, top = rect.Top, bottom = rect.Bottom};
         }
     }
+
+    public class ListValueComparer<T> : IEqualityComparer<List<T>>
+    {
+        private readonly IEqualityComparer<T> _valueComparer;
+
+        public ListValueComparer(IEqualityComparer<T> valueComparer = null)
+        {
+            _valueComparer = valueComparer;
+        }
+
+        public bool Equals(List<T> x, List<T> y)
+        {
+            //Check whether the compared objects reference the same data.
+            if (ReferenceEquals(x, y)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                return false;
+
+            //Check whether the products' properties are equal.
+            return null != _valueComparer
+                ? x.Count() == y.Count()
+                  && x.All(xc => y.Contains(xc, _valueComparer))
+                  && y.All(yc => x.Contains(yc, _valueComparer))
+                : x.Count() == y.Count()
+                  && x.All(y.Contains)
+                  && y.All(x.Contains);
+        }
+
+        public int GetHashCode(List<T> x)
+        {
+            //Check whether the object is null
+            if (ReferenceEquals(x, null)) return 0;
+
+            //Calculate the hash code for the product.
+            var hashCode = 0;
+            foreach (var tmpHashCode in x.Select(c => null != _valueComparer ? _valueComparer.GetHashCode(c) : c.GetHashCode()))
+            {
+                if (hashCode == 0)
+                {
+                    hashCode = tmpHashCode;
+                }
+                else
+                {
+                    hashCode = hashCode ^ tmpHashCode;
+                }
+            }
+            return hashCode;
+        }
+    }
+
+    public class RectangleLeftComparer : IComparer<Rectangle>
+    {
+        public int Compare(Rectangle x, Rectangle y)
+        {
+            if (x.Left == y.Left)
+            {
+                return 0;
+            }
+
+            if (x.Left < y.Left)
+            {
+                return -1;
+            }
+
+            return 1;
+        }
+    }
 }

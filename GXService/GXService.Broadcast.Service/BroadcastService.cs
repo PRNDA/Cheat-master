@@ -2,54 +2,101 @@
 using System.Linq;
 using System.ServiceModel;
 using GXService.Broadcast.Contract;
+using GXService.Broadcast.Service.Models;
 
 namespace GXService.Broadcast.Service
 {
-    class ClientContext
-    {
-        public string SessionId { get; set; }
-        public IBroadcastCallBack BroadcastCallBack { get; set; }
-    }
-
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, Namespace = "GXService.Broadcast")]
     public class BroadcastService : IBroadcast
     {
-        //客户端信息
-        private static readonly Dictionary<string, ClientContext> DicClients = new Dictionary<string, ClientContext>();
+        private ClientInfo _clientInfo;
 
-        //当前会话ID
-        private string _currentSessionId;
+        private RoomContext _currentRoomContext;
 
-        public void Connect()
+        public bool CreateRoom(ClientInfo clientInfo)
         {
-            _currentSessionId = OperationContext.Current.SessionId;
-            var callBack = OperationContext.Current.GetCallbackChannel<IBroadcastCallBack>();
-            if (callBack != null && !string.IsNullOrEmpty(_currentSessionId))
+            //如果当前在房间内，则退出房间
+            if (null != _currentRoomContext)
             {
-                DicClients[_currentSessionId] = new ClientContext
-                    {
-                        SessionId = _currentSessionId,
-                        BroadcastCallBack = callBack
-                    };
-                OperationContext.Current.Channel.Closing += (sender, args) => Disconnect();
+                _currentRoomContext.Leave(GetClientContext());
             }
+
+            //创建房间
+            _currentRoomContext = RoomFactory.Singleton.CreateRoom();
+            if (null == _currentRoomContext)
+            {
+                return false;
+            }
+
+            _clientInfo = clientInfo;
+
+            //进入房间
+            return _currentRoomContext.Enter(GetClientContext());
+        }
+
+        public bool EnterRoom(RoomInfo roomInfo, ClientInfo clientInfo)
+        {
+            if (null != _currentRoomContext)
+            {
+                _currentRoomContext.Leave(GetClientContext());
+            }
+
+            _currentRoomContext = RoomFactory.Singleton.GetRoom(roomInfo.RoomId);
+            if (null == _currentRoomContext)
+            {
+                return false;
+            }
+
+            _clientInfo = clientInfo;
+
+            return _currentRoomContext.Enter(GetClientContext());
+        }
+
+        public List<RoomInfo> GetRoomInfos()
+        {
+            return RoomFactory.Singleton.GetAllRoom().Select(r => r.GetRoomInfo()).ToList();
         }
 
         public void Broadcast(byte[] data)
         {
-            DicClients
-                .Where(client => client.Key != _currentSessionId)
-                .ToList()
-                .ForEach(client =>
-                         client.Value.BroadcastCallBack.OnDataBroadcast(data));
+            _currentRoomContext.Broadcast(data);
         }
 
         public void Disconnect()
         {
-            if (!string.IsNullOrEmpty(_currentSessionId) && DicClients.ContainsKey(_currentSessionId))
+            if (null != _currentRoomContext)
             {
-                DicClients.Remove(_currentSessionId);
+                _currentRoomContext.Leave(GetClientContext());
             }
+        }
+
+        private ClientContext GetClientContext()
+        {
+            var currentSessionId = OperationContext.Current.SessionId;
+            var clientContext = ClientFactory.Singleton.GetClient(currentSessionId);
+            if (clientContext != null)
+            {
+                return clientContext;
+            }
+
+            var callBack = OperationContext.Current.GetCallbackChannel<IBroadcastCallBack>();
+            if (callBack != null && !string.IsNullOrEmpty(currentSessionId))
+            {
+                clientContext = new ClientContext
+                {
+                    SessionId = currentSessionId,
+                    BroadcastCallBack = callBack,
+                    ClientInfo = _clientInfo
+                };
+
+                OperationContext.Current.Channel.Closing += (sender, args) => Disconnect();
+
+                ClientFactory.Singleton.AddClient(clientContext);
+
+                return clientContext;
+            }
+
+            return null;
         }
     }
 }

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICardModel.cs" />
+    <Compile Include="IRecognizer.cs" />
     <Compile Include="ICardRecognizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

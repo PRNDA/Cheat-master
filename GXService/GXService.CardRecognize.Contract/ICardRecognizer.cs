@@ -39,9 +39,6 @@ namespace GXService.CardRecognize.Contract
     public class RecoginizeData
     {
         [DataMember]
-        public GameTemplateType GameTypeTemplate { get; set; }
-
-        [DataMember]
         public byte[] CardsBitmap { get; set; }
     }
 }
