@@ -9,47 +9,23 @@ namespace GXService.Broadcast.Service
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, Namespace = "GXService.Broadcast")]
     public class BroadcastService : IBroadcast
     {
-        private ClientInfo _clientInfo;
+        private ClientContext _clientContext;
 
-        private RoomContext _currentRoomContext;
-
-        public bool CreateRoom(ClientInfo clientInfo)
+        public void Connect(ClientInfo clientInfo)
         {
-            //如果当前在房间内，则退出房间
-            if (null != _currentRoomContext)
-            {
-                _currentRoomContext.Leave(GetClientContext());
-            }
+            _clientContext = ClientFactory.Singleton.GetClient(clientInfo);
 
-            //创建房间
-            _currentRoomContext = RoomFactory.Singleton.CreateRoom();
-            if (null == _currentRoomContext)
-            {
-                return false;
-            }
-
-            _clientInfo = clientInfo;
-
-            //进入房间
-            return _currentRoomContext.Enter(GetClientContext());
+            OperationContext.Current.Channel.Closing += (sender, args) => Disconnect();
         }
 
-        public bool EnterRoom(RoomInfo roomInfo, ClientInfo clientInfo)
+        public bool CreateRoom()
         {
-            if (null != _currentRoomContext)
-            {
-                _currentRoomContext.Leave(GetClientContext());
-            }
+            return _clientContext.CreateRoom();
+        }
 
-            _currentRoomContext = RoomFactory.Singleton.GetRoom(roomInfo.RoomId);
-            if (null == _currentRoomContext)
-            {
-                return false;
-            }
-
-            _clientInfo = clientInfo;
-
-            return _currentRoomContext.Enter(GetClientContext());
+        public bool EnterRoom(string roomId)
+        {
+            return _clientContext.EnterRoom(roomId);
         }
 
         public List<RoomInfo> GetRoomInfos()
@@ -57,46 +33,16 @@ namespace GXService.Broadcast.Service
             return RoomFactory.Singleton.GetAllRoom().Select(r => r.GetRoomInfo()).ToList();
         }
 
-        public void Broadcast(byte[] data)
+        public void Execute(Command cmd)
         {
-            _currentRoomContext.Broadcast(data);
+            _clientContext.Execute(cmd);
         }
 
         public void Disconnect()
         {
-            if (null != _currentRoomContext)
-            {
-                _currentRoomContext.Leave(GetClientContext());
-            }
+            _clientContext.LeaveRoom();
+            ClientFactory.Singleton.RemoveClient(_clientContext);
         }
 
-        private ClientContext GetClientContext()
-        {
-            var currentSessionId = OperationContext.Current.SessionId;
-            var clientContext = ClientFactory.Singleton.GetClient(currentSessionId);
-            if (clientContext != null)
-            {
-                return clientContext;
-            }
-
-            var callBack = OperationContext.Current.GetCallbackChannel<IBroadcastCallBack>();
-            if (callBack != null && !string.IsNullOrEmpty(currentSessionId))
-            {
-                clientContext = new ClientContext
-                {
-                    SessionId = currentSessionId,
-                    BroadcastCallBack = callBack,
-                    ClientInfo = _clientInfo
-                };
-
-                OperationContext.Current.Channel.Closing += (sender, args) => Disconnect();
-
-                ClientFactory.Singleton.AddClient(clientContext);
-
-                return clientContext;
-            }
-
-            return null;
-        }
     }
 }

@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientInfo.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="CommandType.cs" />
     <Compile Include="IBroadcast.cs" />
     <Compile Include="IBroadcastCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

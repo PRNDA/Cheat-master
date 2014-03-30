@@ -5,11 +5,56 @@ namespace GXService.Broadcast.Service.Models
 {
     public class ClientContext : IEquatable<ClientContext>
     {
-        public string SessionId { get; set; }
+        public string SessionId { get; private set; }
 
-        public IBroadcastCallBack BroadcastCallBack { get; set; }
+        public IBroadcastCallBack BroadcastCallBack { get; private set; }
 
-        public ClientInfo ClientInfo { get; set; }
+        public ClientInfo ClientInfo { get; private set; }
+
+        public RoomContext RoomContext { get; private set; }
+
+        public ClientContext(string sessionId, IBroadcastCallBack broadcastCallBack, ClientInfo clientInfo, RoomContext roomContext = null)
+        {
+            SessionId = sessionId;
+            BroadcastCallBack = broadcastCallBack;
+            ClientInfo = clientInfo;
+            RoomContext = roomContext;
+        }
+
+        public bool CreateRoom()
+        {
+            LeaveRoom();
+
+            RoomContext = RoomFactory.Singleton.CreateRoom();
+            
+            return null != RoomContext && RoomContext.Enter(this);
+        }
+
+        public bool EnterRoom(string roomId)
+        {
+            LeaveRoom();
+
+            RoomContext = RoomFactory.Singleton.GetRoom(roomId);
+
+            return null != RoomContext && RoomContext.Enter(this);
+        }
+
+        public void LeaveRoom()
+        {
+            if (RoomContext != null)
+            {
+                RoomContext.Leave(this);
+                RoomContext = null;
+            }   
+        }
+
+        public void Execute(Command cmd)
+        {
+            if (RoomContext != null)
+            {
+                RoomContext.Execute(cmd);
+            }
+        }
 
         #region IEquatable接口实现
         public bool Equals(ClientContext clientContext)

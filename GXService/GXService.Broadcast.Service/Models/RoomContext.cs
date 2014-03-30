@@ -41,10 +41,20 @@ namespace GXService.Broadcast.Service.Models
             _clientContexts.Remove(clientContext);
         }
 
-        public void Broadcast(byte[] data)
+        public void Execute(Command cmd)
         {
-            //并行回调所有客户端的回调接口，将数据广播到当前房间内的各个客户端
-            _clientContexts.AsParallel().ForAll(c => c.BroadcastCallBack.OnDataBroadcast(data));
+            switch (cmd.CommandType)
+            {
+                case CommandType.数据广播:
+                    //并行回调所有客户端的回调接口，将数据广播到当前房间内的各个客户端
+                    _clientContexts.AsParallel().ForAll(c => c.BroadcastCallBack.OnDataBroadcast(cmd.Data));
+                    break;
+
+                case CommandType.开始识别:
+                    //并行回调所有客户端的回调接口，将开始识别扑克牌动作广播到当前房间内的各个客户端
+                    _clientContexts.AsParallel().ForAll(c => c.BroadcastCallBack.OnStartRecognize());
+                    break;
+            }
         }
 
         public RoomInfo GetRoomInfo()
@@ -56,7 +66,10 @@ namespace GXService.Broadcast.Service.Models
             };
         }
 
-
+        public List<ClientContext> GetAllClientContexts()
+        {
+            return _clientContexts.ToList();
+        }
 
         #region IEquatable接口实现
         private readonly ListValueComparer<ClientContext> _clientContextListValueComparer = new ListValueComparer<ClientContext>();

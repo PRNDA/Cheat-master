@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using GXService.Broadcast.Contract;
@@ -17,9 +18,9 @@ namespace GXService.Broadcast.Service
         private ClientFactory()
         {}
 
-        public ClientContext GetClient(string sessionId)
+        public ClientContext GetCurrentClient()
         {
-            return _clientContexts.FirstOrDefault(c => c.SessionId == sessionId);
+            return _clientContexts.FirstOrDefault(c => c.SessionId == OperationContext.Current.SessionId);
         }
 
         public List<ClientContext> GetAllClients()
@@ -30,6 +31,32 @@ namespace GXService.Broadcast.Service
         public void AddClient(ClientContext clientContext)
         {
             _clientContexts.Add(clientContext);
+        }
+
+        public void RemoveClient(ClientContext clientContext)
+        {
+            _clientContexts.Remove(clientContext);
+        }
+
+        public ClientContext GetClient(ClientInfo clientInfo)
+        {
+            var clientContext = GetCurrentClient();
+            if (clientContext != null)
+            {
+                return clientContext;
+            }
+
+            var currentSessionId = OperationContext.Current.SessionId;
+            var callBack = OperationContext.Current.GetCallbackChannel<IBroadcastCallBack>();
+            if (callBack != null && !string.IsNullOrEmpty(currentSessionId))
+            {
+                clientContext = new ClientContext(currentSessionId, callBack, clientInfo);
+                AddClient(clientContext);
+
+                return clientContext;
+            }
+
+            return null;
         }
     }
 }
