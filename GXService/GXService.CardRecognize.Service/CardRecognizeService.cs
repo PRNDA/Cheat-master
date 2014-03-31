@@ -17,19 +17,6 @@ namespace GXService.CardRecognize.Service
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, IncludeExceptionDetailInFaults = true)]
     public class CardRecognizeService : ICardsRecognizer
     {
-        private readonly List<CardTypeRecognizer> _recognizers = new List<CardTypeRecognizer>
-            {
-                new StraightFlushCardTypeRecognizer(),
-                new BoomCardTypeRecognizer(),
-                new GourdCardTypeRecognizer(),
-                new FlushCardTypeRecognizer(),
-                new StraightCardTypeRecognizer(),
-                new ThreeSameCardTypeRecognizer(),
-                new TwoDoubleCardTypeRecognizer(),
-                new DoubleCardTypeRecognizer(),
-                new OnePieceCardTypeRecognizer()
-            };
-
         //灰度化并二值化
         private readonly FiltersSequence _seq = new FiltersSequence
             {
@@ -342,7 +329,7 @@ namespace GXService.CardRecognize.Service
             colorRect = new Rectangle(colorRect.X + _extractBiggestBlob.BlobPosition.X, colorRect.Y + _extractBiggestBlob.BlobPosition.Y, maxBlobBmp.Width, maxBlobBmp.Height);
             return _resizeColorFilter.Apply(src.Clone(colorRect, PixelFormat.Format24bppRgb));
         }
-        
+
         /// <summary>
         /// 根据当前牌解析出最优牌型
         /// </summary>
@@ -371,56 +358,31 @@ namespace GXService.CardRecognize.Service
             var tmp = cards.ToList();
 
             _recognizers.Where(rec => !(rec is OnePieceCardTypeRecognizer))
-                        .ToList()
-                        .ForEach(rec => resultTmp.AddRange(rec.Recognize(tmp)));
+                .ToList()
+                .ForEach(rec => resultTmp.AddRange(rec.Recognize(tmp)));
 
             resultTmp.ForEach(bodyType =>
-                {
-                    var tmpCards = tmp.FindAll(card => !bodyType.GetCards().Contains(card)).ToList();
-                    _recognizers
-                        .ForEach(rec =>
-                                 rec.Recognize(tmpCards)
-                                    .ForEach(tailType =>
-                                        {
-                                            var headType = HeadCardTypeFactory.GetSingleton()
-                                                                              .GetHeadCardType(tmp.FindAll(
-                                                                                  card =>
-                                                                                  !bodyType.GetCards().Contains(card) &&
-                                                                                  !tailType.GetCards().Contains(card))
-                                                                                                  .ToList());
-                                            if (tailType.Compare(bodyType, EmRegionCompare.Tail) >= 0 && bodyType.CompareTypeRule(headType) >= 0)
-                                            {
-                                                result.Add(new CardTypeResult(headType, bodyType, tailType));   
-                                            }
-                                        }));
-                });
+            {
+                var tmpCards = tmp.FindAll(card => !bodyType.GetCards().Contains(card)).ToList();
+                _recognizers
+                    .ForEach(rec =>
+                        rec.Recognize(tmpCards)
+                            .ForEach(tailType =>
+                            {
+                                var headType = HeadCardTypeFactory.GetSingleton()
+                                    .GetHeadCardType(tmp.FindAll(
+                                        card =>
+                                            !bodyType.GetCards().Contains(card) &&
+                                            !tailType.GetCards().Contains(card))
+                                        .ToList());
+                                if (tailType.Compare(bodyType, EmRegionCompare.Tail) >= 0 && bodyType.CompareTypeRule(headType) >= 0)
+                                {
+                                    result.Add(new CardTypeResult(headType, bodyType, tailType));
+                                }
+                            }));
+            });
 
             return result;
-        }
-
-        private static CardTypeResult GetBestResult(List<CardTypeResult> results)
-        {
-            CardTypeResult best = null;
-            results.ForEach(ctr =>
-            {
-                best = best == null
-                           ? ctr
-                           : (best.Compare(ctr) >= 0
-                                  ? best
-                                  : ctr);
-            });
-            return best;
-        }
-
-        private static CardTypeResult GetBestResult(CardTypeResult bestResult, List<CardTypeResult> resultsEnemy)
-        {
-            resultsEnemy.ForEach(res =>
-            {
-                bestResult = bestResult.Compare(res) >= 0
-                                 ? bestResult
-                                 : res;
-            });
-            return bestResult;
         }
     }
 }

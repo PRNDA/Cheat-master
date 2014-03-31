@@ -79,7 +79,6 @@
     <Compile Include="CardNetworkService.cs" />
     <Compile Include="CardRecognizeService.cs" />
     <Compile Include="CardTemplateMatcher.cs" />
-    <Compile Include="CardTypeParseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
