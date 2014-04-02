@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // 有关程序集的常规信息通过下列特性集
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("GXService.SSZGameServer.CardTypeParseService.Service")]
+[assembly: AssemblyTitle("GXService.SSZGameServer.GameControlService.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("GXService.SSZGameServer.CardTypeParseService.Service")]
+[assembly: AssemblyProduct("GXService.SSZGameServer.GameControlService.Service")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("56b5c4c1-a294-4362-ae2c-9b10de44a4c2")]
+[assembly: Guid("fbb81c40-0d19-4463-a890-7ece86079e84")]
 
 // 程序集的版本信息由下列四个值组成:
 //

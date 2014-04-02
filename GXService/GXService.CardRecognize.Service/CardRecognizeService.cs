@@ -10,6 +10,7 @@ using AForge;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
 using GXService.CardRecognize.Contract;
+using GXService.CardRecognize.Service.Recognizer;
 using GXService.Utils;
 
 namespace GXService.CardRecognize.Service
@@ -210,26 +211,23 @@ namespace GXService.CardRecognize.Service
             var topDirectory = new Dictionary<int/*随机的一个top高度*/, List<int>/*偏移小于3的所有top高度*/>();
             rects.ForEach(rt =>
             {
-                foreach (var key in topDirectory.Keys)
+                foreach (var key in topDirectory.Keys.Where(key => Math.Abs(rt.Top - key) < 3))
                 {
-                    if (Math.Abs(rt.Top - key) < 3)
-                    {
-                        topDirectory[key].Add(rt.Top);
-                        return;
-                    }
+                    topDirectory[key].Add(rt.Top);
+                    return;
                 }
 
                 topDirectory.Add(rt.Top, new List<int> { rt.Top });
             });
 
             //找出值最多的集合，取此集合的平均高度为整体的平均高度
-            var avKey = topDirectory.Keys.First();
-            foreach (var dic in topDirectory.Where(dic => dic.Value.Count > topDirectory[avKey].Count))
+            int[] avKey = {topDirectory.Keys.First()};
+            foreach (var dic in topDirectory.Where(dic => dic.Value.Count > topDirectory[avKey[0]].Count))
             {
-                avKey = dic.Key;
+                avKey[0] = dic.Key;
             }
 
-            var avTop = topDirectory[avKey].Average();
+            var avTop = topDirectory[avKey[0]].Average();
 
             rects = rects.Where(r => Math.Abs(avTop - r.Top) < 3).ToList();
             rects.Sort(new RectangleLeftComparer());
@@ -328,61 +326,6 @@ namespace GXService.CardRecognize.Service
             //需要返回24位的图片，所以需要拷贝原图
             colorRect = new Rectangle(colorRect.X + _extractBiggestBlob.BlobPosition.X, colorRect.Y + _extractBiggestBlob.BlobPosition.Y, maxBlobBmp.Width, maxBlobBmp.Height);
             return _resizeColorFilter.Apply(src.Clone(colorRect, PixelFormat.Format24bppRgb));
-        }
-
-        /// <summary>
-        /// 根据当前牌解析出最优牌型
-        /// </summary>
-        /// <param name="cards"></param>
-        /// <returns></returns>
-        public CardTypeResult ParseCardType(List<Card> cards)
-        {
-            return GetBestResult(ParseCardTypeResult(cards));
-        }
-
-        /// <summary>
-        /// 根据敌方牌解析出最优牌型
-        /// </summary>
-        /// <param name="cards"></param>
-        /// <param name="cardsEnemy"></param>
-        /// <returns></returns>
-        public CardTypeResult ParseCardTypeVsEnemy(List<Card> cards, List<Card> cardsEnemy)
-        {
-            return GetBestResult(ParseCardType(cards), ParseCardTypeResult(cards));
-        }
-
-        private List<CardTypeResult> ParseCardTypeResult(IEnumerable<Card> cards)
-        {
-            var result = new List<CardTypeResult>();
-            var resultTmp = new List<CardType>();
-            var tmp = cards.ToList();
-
-            _recognizers.Where(rec => !(rec is OnePieceCardTypeRecognizer))
-                .ToList()
-                .ForEach(rec => resultTmp.AddRange(rec.Recognize(tmp)));
-
-            resultTmp.ForEach(bodyType =>
-            {
-                var tmpCards = tmp.FindAll(card => !bodyType.GetCards().Contains(card)).ToList();
-                _recognizers
-                    .ForEach(rec =>
-                        rec.Recognize(tmpCards)
-                            .ForEach(tailType =>
-                            {
-                                var headType = HeadCardTypeFactory.GetSingleton()
-                                    .GetHeadCardType(tmp.FindAll(
-                                        card =>
-                                            !bodyType.GetCards().Contains(card) &&
-                                            !tailType.GetCards().Contains(card))
-                                        .ToList());
-                                if (tailType.Compare(bodyType, EmRegionCompare.Tail) >= 0 && bodyType.CompareTypeRule(headType) >= 0)
-                                {
-                                    result.Add(new CardTypeResult(headType, bodyType, tailType));
-                                }
-                            }));
-            });
-
-            return result;
         }
     }
 }

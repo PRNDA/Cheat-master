@@ -73,18 +73,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardNetwork2X2.cs" />
-    <Compile Include="CardNetwork3X4.cs" />
-    <Compile Include="CardNetwork.cs" />
-    <Compile Include="CardNetworkService.cs" />
+    <Compile Include="Recognizer\CardNetwork2X2.cs" />
+    <Compile Include="Recognizer\CardNetwork3X4.cs" />
+    <Compile Include="Recognizer\CardNetwork.cs" />
+    <Compile Include="Recognizer\CardNetworkService.cs" />
     <Compile Include="CardRecognizeService.cs" />
-    <Compile Include="CardTemplateMatcher.cs" />
+    <Compile Include="Recognizer\CardTemplateMatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="network2x2.data" />
-    <None Include="network3x4.data" />
+    <None Include="Recognizer\NetworkData\network2x2.data" />
+    <None Include="Recognizer\NetworkData\network3x4.data" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GXService.CardRecognize.Contract\GXService.CardRecognize.Contract.csproj">

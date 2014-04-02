@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GXService.CardRecognize.Contract;
-using GXService.SSZGameServer.Contract;
+using GXService.SSZGameServer.CardTypeParseService.Contract;
 using GXService.Utils;
 
-namespace GXService.SSZGameServer.Service.CardTypeParsers
+namespace GXService.SSZGameServer.CardTypeParseService.Service.CardTypeParsers
 {
     public class OnePieceCardTypeParser : CardTypeParser
     {

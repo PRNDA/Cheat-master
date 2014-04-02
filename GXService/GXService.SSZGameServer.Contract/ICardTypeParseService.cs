@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using GXService.CardRecognize.Contract;
 
-namespace GXService.SSZGameServer.Contract
+namespace GXService.SSZGameServer.CardTypeParseService.Contract
 {
     [ServiceContract(SessionMode = SessionMode.Required)]
     public interface ICardTypeParseService

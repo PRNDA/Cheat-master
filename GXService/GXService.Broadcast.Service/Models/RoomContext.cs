@@ -6,7 +6,7 @@ using GXService.Utils;
 
 namespace GXService.Broadcast.Service.Models
 {
-    public class RoomContext
+    public abstract class RoomContext
     {
         public string RoomId { get; private set; }
 
@@ -14,7 +14,7 @@ namespace GXService.Broadcast.Service.Models
 
         private const int MaxClient = 3;
 
-        public RoomContext()
+        protected RoomContext()
         {
             RoomId = Guid.NewGuid().ToString("N");
         }

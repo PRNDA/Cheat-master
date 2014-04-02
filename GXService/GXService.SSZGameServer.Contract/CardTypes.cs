@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using GXService.CardRecognize.Contract;
 
-namespace GXService.SSZGameServer.Contract
+namespace GXService.SSZGameServer.CardTypeParseService.Contract
 {
     //各种牌型的枚举
     public enum EmTypeCard

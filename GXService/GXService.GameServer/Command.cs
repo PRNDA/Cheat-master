@@ -1,8 +1,8 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GXService.Broadcast.Contract
+namespace GXService.GameServer
 {
-    [DataContract(Namespace = "GXService.Broadcast.Contract")]
+    [DataContract(Namespace = "GXService.GameServer")]
     public class Command
     {
         [DataMember]

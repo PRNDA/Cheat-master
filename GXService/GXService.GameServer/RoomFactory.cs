@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GXService.Broadcast.Service.Models;
 
-namespace GXService.Broadcast.Service
+namespace GXService.GameServer
 {
-    public class RoomFactory<T> where T : RoomContext, new()
+    public class RoomFactory<T, TI>
+        where T : RoomContext<TI>, new()
+        where TI : class 
     {
-        private readonly List<T> _roomContexts = new List<T>();
+        private readonly List<RoomContext<TI>> _roomContexts = new List<RoomContext<TI>>();
 
-        public static RoomFactory<T> Singleton = new RoomFactory<T>();
+        public static RoomFactory<T, TI> Singleton = new RoomFactory<T, TI>();
 
         private RoomFactory()
         {}
 
-        public T CreateRoom()
+        public RoomContext<TI> CreateRoom()
         {
             var c = typeof (T).GetConstructor(Type.EmptyTypes);
             if (c == null)
@@ -27,12 +28,12 @@ namespace GXService.Broadcast.Service
             return roomContext;
         }
 
-        public T GetRoom(string roomId)
+        public RoomContext<TI> GetRoom(string roomId)
         {
             return _roomContexts.FirstOrDefault(r => r.RoomId == roomId);
         }
 
-        public List<T> GetAllRoom()
+        public List<RoomContext<TI>> GetAllRoom()
         {
             return _roomContexts.ToList();
         }

@@ -2,10 +2,10 @@
 using System.Linq;
 using System.ServiceModel;
 using GXService.CardRecognize.Contract;
-using GXService.SSZGameServer.Contract;
-using GXService.SSZGameServer.Service.CardTypeParsers;
+using GXService.SSZGameServer.CardTypeParseService.Contract;
+using GXService.SSZGameServer.CardTypeParseService.Service.CardTypeParsers;
 
-namespace GXService.SSZGameServer.Service
+namespace GXService.SSZGameServer.CardTypeParseService.Service
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, IncludeExceptionDetailInFaults = true)]
     public class CardTypeParseService : ICardTypeParseService

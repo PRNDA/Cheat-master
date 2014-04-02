@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using GXService.CardRecognize.Contract;
-using GXService.SSZGameServer.Contract;
+using GXService.SSZGameServer.CardTypeParseService.Contract;
 
-namespace GXService.SSZGameServer.Service.CardTypeParsers
+namespace GXService.SSZGameServer.CardTypeParseService.Service.CardTypeParsers
 {
     public abstract class CardTypeParser
     {
