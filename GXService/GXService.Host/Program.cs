@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
-using GXService.Broadcast.Service;
 using GXService.CardRecognize.Service;
+using GXService.SSZGameServer.CardTypeParseService.Service;
+using GXService.SSZGameServer.GameControlService.Service;
 
 namespace GXService.Host
 {
@@ -11,18 +12,25 @@ namespace GXService.Host
         {
             try
             {
-                var hostBroadcast = new ServiceHost(typeof(BroadcastService));
-                hostBroadcast.Opened += (sender, eventArgs) => Console.WriteLine("数据广播服务器启动完成!");
-                if (hostBroadcast.State != CommunicationState.Opened)
-                {
-                    hostBroadcast.Open();
-                }
-
                 var hostCardRecognize = new ServiceHost(typeof(CardRecognizeService));
-                hostCardRecognize.Opened += (sender, eventArgs) => Console.WriteLine("扑克牌识别服务器启动完成!");
+                hostCardRecognize.Opened += (sender, eventArgs) => Console.WriteLine("扑克牌识别服务启动完成!");
                 if (hostCardRecognize.State != CommunicationState.Opened)
                 {
                     hostCardRecognize.Open();
+                }
+
+                var hostCardTypeParse = new ServiceHost(typeof(CardTypeParseService));
+                hostCardTypeParse.Opened += (sender, eventArgs) => Console.WriteLine("十三张牌型解析服务启动完成!");
+                if (hostCardTypeParse.State != CommunicationState.Opened)
+                {
+                    hostCardTypeParse.Open();
+                }
+
+                var hostSSZGameControl = new ServiceHost(typeof (GameControlService));
+                hostSSZGameControl.Opened += (sender, eventArgs) => Console.WriteLine("十三张游戏控制服务启动完成");
+                if (hostSSZGameControl.State != CommunicationState.Opened)
+                {
+                    hostSSZGameControl.Open();
                 }
             }
             catch (Exception ex)

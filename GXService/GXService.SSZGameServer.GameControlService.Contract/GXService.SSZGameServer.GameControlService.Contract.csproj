@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,6 +50,10 @@
     <ProjectReference Include="..\GXService.GameServer\GXService.GameServer.csproj">
       <Project>{0a3d704c-c7e3-4b57-9b6e-cbf6105d6c5c}</Project>
       <Name>GXService.GameServer %28GXService.GameServer\GXService.GameServer%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GXService.SSZGameServer.Contract\GXService.SSZGameServer.CardTypeParseService.Contract.csproj">
+      <Project>{d0a4f159-6b95-4ef0-aa6c-889cb46e8ca6}</Project>
+      <Name>GXService.SSZGameServer.CardTypeParseService.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -59,14 +59,6 @@
       <Project>{6a0adfac-4f85-4673-9f1b-5773674b6093}</Project>
       <Name>GXService.Authentication</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GXService.Broadcast.Contract\GXService.Broadcast.Contract.csproj">
-      <Project>{accea18f-d23f-45c4-95b0-d6bbfddf864a}</Project>
-      <Name>GXService.Broadcast.Contract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GXService.Broadcast.Service\GXService.Broadcast.Service.csproj">
-      <Project>{15b3e0d2-6217-493a-a690-158c497f5318}</Project>
-      <Name>GXService.Broadcast.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GXService.CardRecognize.Contract\GXService.CardRecognize.Contract.csproj">
       <Project>{7568639e-a449-45c6-bf82-ce7ed1d7fcd6}</Project>
       <Name>GXService.CardRecognize.Contract</Name>
@@ -74,6 +66,22 @@
     <ProjectReference Include="..\GXService.CardRecognize.Service\GXService.CardRecognize.Service.csproj">
       <Project>{136e0922-1894-439f-9f64-8dda4d39eaec}</Project>
       <Name>GXService.CardRecognize.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GXService.SSZGameServer.Contract\GXService.SSZGameServer.CardTypeParseService.Contract.csproj">
+      <Project>{d0a4f159-6b95-4ef0-aa6c-889cb46e8ca6}</Project>
+      <Name>GXService.SSZGameServer.CardTypeParseService.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GXService.SSZGameServer.GameControlService.Contract\GXService.SSZGameServer.GameControlService.Contract.csproj">
+      <Project>{f325d12d-5f11-4485-aa4c-8693935e3117}</Project>
+      <Name>GXService.SSZGameServer.GameControlService.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GXService.SSZGameServer.GameControlService.Service\GXService.SSZGameServer.GameControlService.Service.csproj">
+      <Project>{44efe7b4-8089-44d2-91d9-affc5926d0c4}</Project>
+      <Name>GXService.SSZGameServer.GameControlService.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GXService.SSZGameServer.Service\GXService.SSZGameServer.CardTypeParseService.Service.csproj">
+      <Project>{cee595c3-106f-426f-a08b-db1734e75b0a}</Project>
+      <Name>GXService.SSZGameServer.CardTypeParseService.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
