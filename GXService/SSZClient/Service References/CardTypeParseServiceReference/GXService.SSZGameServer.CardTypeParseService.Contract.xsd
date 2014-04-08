@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GXService.SSZGameServer.CardTypeParseService.Contract" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GXService.SSZGameServer.CardTypeParseService.Contract" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="EmTypeCard">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NoType" />
+      <xs:enumeration value="OnePair" />
+      <xs:enumeration value="DoublePair" />
+      <xs:enumeration value="ThreeSame" />
+      <xs:enumeration value="Straight" />
+      <xs:enumeration value="Flush" />
+      <xs:enumeration value="Gourd" />
+      <xs:enumeration value="Boom" />
+      <xs:enumeration value="StraightFlush" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="EmTypeCard" nillable="true" type="tns:EmTypeCard" />
+</xs:schema>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="aa436fb4-516d-41f7-ac76-47fe1c99edc6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="15b2b7e8-cb27-4f8c-9dd0-a606d27e377e" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+    <MetadataFile FileName="GXService.SSZGameServer.GameControlService.Service.wsdl" MetadataType="Wsdl" ID="628bc784-7efe-457a-a3f9-329da341ed4b" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="2d3b34bb-a185-4421-ad5a-7329760b1674" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="884871ed-1dd4-49b0-a4ea-131cce19ad53" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+    <MetadataFile FileName="GXService.GameServer.xsd" MetadataType="Schema" ID="afc29b4a-fe4c-49a8-9bfe-d9610b741601" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
