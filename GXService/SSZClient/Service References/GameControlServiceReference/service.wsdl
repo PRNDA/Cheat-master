@@ -38,6 +38,9 @@
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="GXService.GameServer" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GXService.CardRecognize.Contract" />
+      <xsd:import namespace="GXService.CardRecognize.Contract" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Drawing" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IGameControlService_Connect_InputMessage">
@@ -61,20 +64,26 @@
   <wsdl:message name="IGameControlService_GetRoomInfos_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetRoomInfosResponse" />
   </wsdl:message>
-  <wsdl:message name="IGameControlService_Execute_InputMessage">
-    <wsdl:part name="parameters" element="tns:Execute" />
+  <wsdl:message name="IGameControlService_StartRecognize_InputMessage">
+    <wsdl:part name="parameters" element="tns:StartRecognize" />
   </wsdl:message>
-  <wsdl:message name="IGameControlService_Execute_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ExecuteResponse" />
+  <wsdl:message name="IGameControlService_StartRecognize_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StartRecognizeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGameControlService_Recognized_InputMessage">
+    <wsdl:part name="parameters" element="tns:Recognized" />
+  </wsdl:message>
+  <wsdl:message name="IGameControlService_Recognized_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecognizedResponse" />
   </wsdl:message>
   <wsdl:message name="IGameControlService_Disconnect_InputMessage">
     <wsdl:part name="parameters" element="tns:Disconnect" />
   </wsdl:message>
-  <wsdl:message name="IGameControlService_OnDataBroadcast_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:OnDataBroadcast" />
-  </wsdl:message>
   <wsdl:message name="IGameControlService_OnStartRecognize_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:OnStartRecognize" />
+  </wsdl:message>
+  <wsdl:message name="IGameControlService_OnRecognized_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnRecognized" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="IGameControlService">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Connect">
@@ -92,18 +101,22 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IGameControlService/GetRoomInfos" message="tns:IGameControlService_GetRoomInfos_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGameControlService/GetRoomInfosResponse" message="tns:IGameControlService_GetRoomInfos_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Execute">
-      <wsdl:input wsaw:Action="http://tempuri.org/IGameControlService/Execute" message="tns:IGameControlService_Execute_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IGameControlService/ExecuteResponse" message="tns:IGameControlService_Execute_OutputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="StartRecognize">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGameControlService/StartRecognize" message="tns:IGameControlService_StartRecognize_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGameControlService/StartRecognizeResponse" message="tns:IGameControlService_StartRecognize_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Recognized">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGameControlService/Recognized" message="tns:IGameControlService_Recognized_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGameControlService/RecognizedResponse" message="tns:IGameControlService_Recognized_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="true" name="Disconnect">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameControlService/Disconnect" message="tns:IGameControlService_Disconnect_InputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnDataBroadcast">
-      <wsdl:output wsaw:Action="http://tempuri.org/IGameControlService/OnDataBroadcast" message="tns:IGameControlService_OnDataBroadcast_OutputCallbackMessage" />
-    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnStartRecognize">
       <wsdl:output wsaw:Action="http://tempuri.org/IGameControlService/OnStartRecognize" message="tns:IGameControlService_OnStartRecognize_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnRecognized">
+      <wsdl:output wsaw:Action="http://tempuri.org/IGameControlService/OnRecognized" message="tns:IGameControlService_OnRecognized_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IGameControlService" type="tns:IGameControlService">
@@ -143,8 +156,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Execute">
-      <soap12:operation soapAction="http://tempuri.org/IGameControlService/Execute" style="document" />
+    <wsdl:operation name="StartRecognize">
+      <soap12:operation soapAction="http://tempuri.org/IGameControlService/StartRecognize" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Recognized">
+      <soap12:operation soapAction="http://tempuri.org/IGameControlService/Recognized" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -158,14 +180,14 @@
         <soap12:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="OnDataBroadcast">
-      <soap12:operation soapAction="http://tempuri.org/IGameControlService/OnDataBroadcast" style="document" />
+    <wsdl:operation name="OnStartRecognize">
+      <soap12:operation soapAction="http://tempuri.org/IGameControlService/OnStartRecognize" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="OnStartRecognize">
-      <soap12:operation soapAction="http://tempuri.org/IGameControlService/OnStartRecognize" style="document" />
+    <wsdl:operation name="OnRecognized">
+      <soap12:operation soapAction="http://tempuri.org/IGameControlService/OnRecognized" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

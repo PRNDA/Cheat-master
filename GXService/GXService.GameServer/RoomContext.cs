@@ -40,8 +40,6 @@ namespace GXService.GameServer
             ClientContexts.Remove(clientContext);
         }
 
-        public abstract void Execute(Command cmd);
-
         public RoomInfo GetRoomInfo()
         {
             return new RoomInfo

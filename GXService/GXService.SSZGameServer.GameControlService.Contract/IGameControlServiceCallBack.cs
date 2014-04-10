@@ -1,5 +1,5 @@
 ﻿using System.ServiceModel;
-using GXService.SSZGameServer.CardTypeParseService.Contract;
+using GXService.CardRecognize.Contract;
 using GXService.GameServer;
 
 namespace GXService.SSZGameServer.GameControlService.Contract
@@ -13,11 +13,11 @@ namespace GXService.SSZGameServer.GameControlService.Contract
         void OnStartRecognize();
 
         /// <summary>
-        /// 有客户端的牌型解析完成回调
+        /// 客户端的牌识别完成回调
         /// </summary>
         /// <param name="clientInfo"></param>
-        /// <param name="cardTypeResult"></param>
+        /// <param name="recognizeResult"></param>
         [OperationContract(IsOneWay = true)]
-        void OnRecognized(ClientInfo clientInfo, CardTypeResult cardTypeResult);
+        void OnRecognized(ClientInfo clientInfo, RecognizeResult recognizeResult);
     }
 }

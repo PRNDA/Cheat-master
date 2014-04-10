@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using GXService.CardRecognize.Contract;
 using GXService.GameServer;
 using GXService.SSZGameServer.GameControlService.Contract;
 
@@ -34,9 +35,14 @@ namespace GXService.SSZGameServer.GameControlService.Service
             return RoomFactory<SSZRoomContext, IGameControlServiceCallBack>.Singleton.GetAllRoom().Select(r => r.GetRoomInfo()).ToList();
         }
 
-        public void Execute(Command cmd)
+        public void StartRecognize()
         {
-            _clientContext.Execute(cmd);
+            ((SSZClientContext)_clientContext).StartRecognize();
+        }
+
+        public void Recognized(ClientInfo clientInfo, RecognizeResult recognizeResult)
+        {
+            ((SSZClientContext)_clientContext).Recognized(clientInfo, recognizeResult);
         }
 
         public void Disconnect()

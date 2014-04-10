@@ -27,6 +27,9 @@
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="2d3b34bb-a185-4421-ad5a-7329760b1674" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="884871ed-1dd4-49b0-a4ea-131cce19ad53" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
     <MetadataFile FileName="GXService.GameServer.xsd" MetadataType="Schema" ID="afc29b4a-fe4c-49a8-9bfe-d9610b741601" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+    <MetadataFile FileName="GXService.CardRecognize.Contract1.xsd" MetadataType="Schema" ID="173bffc7-aa4b-4878-94b3-99f108773882" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+    <MetadataFile FileName="GXService.CardRecognize.Contract.xsd" MetadataType="Schema" ID="bc480353-0352-492e-a6da-3fb4febfcc4b" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
+    <MetadataFile FileName="System.Drawing.xsd" MetadataType="Schema" ID="e16d4c6f-4f53-4390-b878-d9edb41ae383" SourceId="1" SourceUrl="net.tcp://localhost:4502/GXService/SSZGameServer/GameControlService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

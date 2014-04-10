@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="GXService.GameServer" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/GXService.CardRecognize.Contract" />
   <xs:element name="Connect">
     <xs:complexType>
       <xs:sequence>
@@ -46,14 +47,25 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Execute">
+  <xs:element name="StartRecognize">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartRecognizeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Recognized">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="GXService.GameServer" minOccurs="0" name="cmd" nillable="true" type="q3:Command" />
+        <xs:element xmlns:q3="GXService.GameServer" minOccurs="0" name="clientInfo" nillable="true" type="q3:ClientInfo" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/GXService.CardRecognize.Contract" minOccurs="0" name="recognizeResult" nillable="true" type="q4:RecognizeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ExecuteResponse">
+  <xs:element name="RecognizedResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
@@ -63,16 +75,17 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="OnDataBroadcast">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="data" nillable="true" type="xs:base64Binary" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="OnStartRecognize">
     <xs:complexType>
       <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnRecognized">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="GXService.GameServer" minOccurs="0" name="clientInfo" nillable="true" type="q5:ClientInfo" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/GXService.CardRecognize.Contract" minOccurs="0" name="recognizeResult" nillable="true" type="q6:RecognizeResult" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>

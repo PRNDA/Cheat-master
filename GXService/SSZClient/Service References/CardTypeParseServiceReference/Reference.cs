@@ -268,7 +268,7 @@ namespace SSZClient.CardTypeParseServiceReference {
         private SSZClient.CardTypeParseServiceReference.EmTypeCard CardTypeEmField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private SSZClient.CardTypeParseServiceReference.Card[] CardsField;
+        private SSZClient.CardRecognizeServiceReference.Card[] CardsField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -294,7 +294,7 @@ namespace SSZClient.CardTypeParseServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public SSZClient.CardTypeParseServiceReference.Card[] Cards {
+        public SSZClient.CardRecognizeServiceReference.Card[] Cards {
             get {
                 return this.CardsField;
             }
@@ -444,16 +444,16 @@ namespace SSZClient.CardTypeParseServiceReference {
         System.Threading.Tasks.Task ConnectAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICardTypeParseService/ParseCardType", ReplyAction="http://tempuri.org/ICardTypeParseService/ParseCardTypeResponse")]
-        SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardType(SSZClient.CardTypeParseServiceReference.Card[] cards);
+        SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardType(SSZClient.CardRecognizeServiceReference.Card[] cards);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICardTypeParseService/ParseCardType", ReplyAction="http://tempuri.org/ICardTypeParseService/ParseCardTypeResponse")]
-        System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeAsync(SSZClient.CardTypeParseServiceReference.Card[] cards);
+        System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeAsync(SSZClient.CardRecognizeServiceReference.Card[] cards);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICardTypeParseService/ParseCardTypeVsEnemy", ReplyAction="http://tempuri.org/ICardTypeParseService/ParseCardTypeVsEnemyResponse")]
-        SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardTypeVsEnemy(SSZClient.CardTypeParseServiceReference.Card[] cards, SSZClient.CardTypeParseServiceReference.Card[] cardsEnemy);
+        SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardTypeVsEnemy(SSZClient.CardRecognizeServiceReference.Card[] cards, SSZClient.CardRecognizeServiceReference.Card[] cardsEnemy);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICardTypeParseService/ParseCardTypeVsEnemy", ReplyAction="http://tempuri.org/ICardTypeParseService/ParseCardTypeVsEnemyResponse")]
-        System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeVsEnemyAsync(SSZClient.CardTypeParseServiceReference.Card[] cards, SSZClient.CardTypeParseServiceReference.Card[] cardsEnemy);
+        System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeVsEnemyAsync(SSZClient.CardRecognizeServiceReference.Card[] cards, SSZClient.CardRecognizeServiceReference.Card[] cardsEnemy);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, IsTerminating=true, IsInitiating=false, Action="http://tempuri.org/ICardTypeParseService/Disconnect")]
         void Disconnect();
@@ -497,19 +497,22 @@ namespace SSZClient.CardTypeParseServiceReference {
             return base.Channel.ConnectAsync();
         }
         
-        public SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardType(SSZClient.CardTypeParseServiceReference.Card[] cards) {
+        public SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardType(SSZClient.CardRecognizeServiceReference.Card[] cards) {
             return base.Channel.ParseCardType(cards);
         }
-        
-        public System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeAsync(SSZClient.CardTypeParseServiceReference.Card[] cards) {
+
+        public System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeAsync(SSZClient.CardRecognizeServiceReference.Card[] cards)
+        {
             return base.Channel.ParseCardTypeAsync(cards);
         }
-        
-        public SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardTypeVsEnemy(SSZClient.CardTypeParseServiceReference.Card[] cards, SSZClient.CardTypeParseServiceReference.Card[] cardsEnemy) {
+
+        public SSZClient.CardTypeParseServiceReference.CardTypeResult ParseCardTypeVsEnemy(SSZClient.CardRecognizeServiceReference.Card[] cards, SSZClient.CardRecognizeServiceReference.Card[] cardsEnemy)
+        {
             return base.Channel.ParseCardTypeVsEnemy(cards, cardsEnemy);
         }
-        
-        public System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeVsEnemyAsync(SSZClient.CardTypeParseServiceReference.Card[] cards, SSZClient.CardTypeParseServiceReference.Card[] cardsEnemy) {
+
+        public System.Threading.Tasks.Task<SSZClient.CardTypeParseServiceReference.CardTypeResult> ParseCardTypeVsEnemyAsync(SSZClient.CardRecognizeServiceReference.Card[] cards, SSZClient.CardRecognizeServiceReference.Card[] cardsEnemy)
+        {
             return base.Channel.ParseCardTypeVsEnemyAsync(cards, cardsEnemy);
         }
         

@@ -44,9 +44,12 @@
     <Compile Include="IGameControlService.cs" />
     <Compile Include="IGameControlServiceCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SSZCommandType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GXService.CardRecognize.Contract\GXService.CardRecognize.Contract.csproj">
+      <Project>{7568639E-A449-45C6-BF82-CE7ED1D7FCD6}</Project>
+      <Name>GXService.CardRecognize.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GXService.GameServer\GXService.GameServer.csproj">
       <Project>{0a3d704c-c7e3-4b57-9b6e-cbf6105d6c5c}</Project>
       <Name>GXService.GameServer %28GXService.GameServer\GXService.GameServer%29</Name>

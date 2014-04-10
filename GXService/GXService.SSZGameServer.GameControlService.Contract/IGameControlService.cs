@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
+using GXService.CardRecognize.Contract;
 using GXService.GameServer;
 
 namespace GXService.SSZGameServer.GameControlService.Contract
@@ -20,7 +21,10 @@ namespace GXService.SSZGameServer.GameControlService.Contract
         List<RoomInfo> GetRoomInfos();
 
         [OperationContract]
-        void Execute(Command cmd);
+        void StartRecognize();
+
+        [OperationContract]
+        void Recognized(ClientInfo clientInfo, RecognizeResult recognizeResult);
 
         [OperationContract(IsOneWay = true, IsInitiating = false, IsTerminating = true)]
         void Disconnect();

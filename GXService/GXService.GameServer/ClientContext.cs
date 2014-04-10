@@ -33,14 +33,6 @@ namespace GXService.GameServer
             }   
         }
 
-        public void Execute(Command cmd)
-        {
-            if (RoomContext != null)
-            {
-                RoomContext.Execute(cmd);
-            }
-        }
-
         #region IEquatable接口实现
         public bool Equals(ClientContext<TI> clientContext)
         {

@@ -121,18 +121,15 @@ namespace SSZClient.GameControlServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Command", Namespace="GXService.GameServer")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RecognizeResult", Namespace="http://schemas.datacontract.org/2004/07/GXService.CardRecognize.Contract")]
     [System.SerializableAttribute()]
-    public partial class Command : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class RecognizeResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int CommandTypeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private byte[] DataField;
+        private SSZClient.GameControlServiceReference.Card[] ResultField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -145,27 +142,14 @@ namespace SSZClient.GameControlServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int CommandType {
+        public SSZClient.GameControlServiceReference.Card[] Result {
             get {
-                return this.CommandTypeField;
+                return this.ResultField;
             }
             set {
-                if ((this.CommandTypeField.Equals(value) != true)) {
-                    this.CommandTypeField = value;
-                    this.RaisePropertyChanged("CommandType");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public byte[] Data {
-            get {
-                return this.DataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DataField, value) != true)) {
-                    this.DataField = value;
-                    this.RaisePropertyChanged("Data");
+                if ((object.ReferenceEquals(this.ResultField, value) != true)) {
+                    this.ResultField = value;
+                    this.RaisePropertyChanged("Result");
                 }
             }
         }
@@ -178,6 +162,159 @@ namespace SSZClient.GameControlServiceReference {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Card", Namespace="GXService.CardRecognize.Contract")]
+    [System.SerializableAttribute()]
+    public partial class Card : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SSZClient.GameControlServiceReference.CardColor ColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SSZClient.GameControlServiceReference.CardNum NumField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Drawing.Rectangle RectField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SSZClient.GameControlServiceReference.CardColor Color {
+            get {
+                return this.ColorField;
+            }
+            set {
+                if ((this.ColorField.Equals(value) != true)) {
+                    this.ColorField = value;
+                    this.RaisePropertyChanged("Color");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SSZClient.GameControlServiceReference.CardNum Num {
+            get {
+                return this.NumField;
+            }
+            set {
+                if ((this.NumField.Equals(value) != true)) {
+                    this.NumField = value;
+                    this.RaisePropertyChanged("Num");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Drawing.Rectangle Rect {
+            get {
+                return this.RectField;
+            }
+            set {
+                if ((this.RectField.Equals(value) != true)) {
+                    this.RectField = value;
+                    this.RaisePropertyChanged("Rect");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CardColor", Namespace="http://schemas.datacontract.org/2004/07/GXService.CardRecognize.Contract")]
+    public enum CardColor : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        未知 = -1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        方块 = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        梅花 = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        红桃 = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        黑桃 = 3,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CardNum", Namespace="http://schemas.datacontract.org/2004/07/GXService.CardRecognize.Contract")]
+    public enum CardNum : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        未知 = -1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _2 = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _3 = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _4 = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _5 = 5,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _6 = 6,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _7 = 7,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _8 = 8,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _9 = 9,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _10 = 10,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _J = 11,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _Q = 12,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _K = 13,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _A = 14,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _Joke = 15,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _BigJoke = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        _Any = 17,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -208,11 +345,17 @@ namespace SSZClient.GameControlServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameControlService/GetRoomInfos", ReplyAction="http://tempuri.org/IGameControlService/GetRoomInfosResponse")]
         System.Threading.Tasks.Task<SSZClient.GameControlServiceReference.RoomInfo[]> GetRoomInfosAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameControlService/Execute", ReplyAction="http://tempuri.org/IGameControlService/ExecuteResponse")]
-        void Execute(SSZClient.GameControlServiceReference.Command cmd);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameControlService/StartRecognize", ReplyAction="http://tempuri.org/IGameControlService/StartRecognizeResponse")]
+        void StartRecognize();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameControlService/Execute", ReplyAction="http://tempuri.org/IGameControlService/ExecuteResponse")]
-        System.Threading.Tasks.Task ExecuteAsync(SSZClient.GameControlServiceReference.Command cmd);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameControlService/StartRecognize", ReplyAction="http://tempuri.org/IGameControlService/StartRecognizeResponse")]
+        System.Threading.Tasks.Task StartRecognizeAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameControlService/Recognized", ReplyAction="http://tempuri.org/IGameControlService/RecognizedResponse")]
+        void Recognized(SSZClient.GameControlServiceReference.ClientInfo clientInfo, SSZClient.CardRecognizeServiceReference.RecognizeResult recognizeResult);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameControlService/Recognized", ReplyAction="http://tempuri.org/IGameControlService/RecognizedResponse")]
+        System.Threading.Tasks.Task RecognizedAsync(SSZClient.GameControlServiceReference.ClientInfo clientInfo, SSZClient.CardRecognizeServiceReference.RecognizeResult recognizeResult);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, IsTerminating=true, IsInitiating=false, Action="http://tempuri.org/IGameControlService/Disconnect")]
         void Disconnect();
@@ -224,11 +367,11 @@ namespace SSZClient.GameControlServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IGameControlServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameControlService/OnDataBroadcast")]
-        void OnDataBroadcast(byte[] data);
-        
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameControlService/OnStartRecognize")]
         void OnStartRecognize();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameControlService/OnRecognized")]
+        void OnRecognized(SSZClient.GameControlServiceReference.ClientInfo clientInfo, SSZClient.CardRecognizeServiceReference.RecognizeResult recognizeResult);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -291,12 +434,21 @@ namespace SSZClient.GameControlServiceReference {
             return base.Channel.GetRoomInfosAsync();
         }
         
-        public void Execute(SSZClient.GameControlServiceReference.Command cmd) {
-            base.Channel.Execute(cmd);
+        public void StartRecognize() {
+            base.Channel.StartRecognize();
         }
         
-        public System.Threading.Tasks.Task ExecuteAsync(SSZClient.GameControlServiceReference.Command cmd) {
-            return base.Channel.ExecuteAsync(cmd);
+        public System.Threading.Tasks.Task StartRecognizeAsync() {
+            return base.Channel.StartRecognizeAsync();
+        }
+        
+        public void Recognized(SSZClient.GameControlServiceReference.ClientInfo clientInfo, SSZClient.CardRecognizeServiceReference.RecognizeResult recognizeResult) {
+            base.Channel.Recognized(clientInfo, recognizeResult);
+        }
+
+        public System.Threading.Tasks.Task RecognizedAsync(SSZClient.GameControlServiceReference.ClientInfo clientInfo, SSZClient.CardRecognizeServiceReference.RecognizeResult recognizeResult)
+        {
+            return base.Channel.RecognizedAsync(clientInfo, recognizeResult);
         }
         
         public void Disconnect() {

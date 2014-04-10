@@ -25,11 +25,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfClientInfo" nillable="true" type="tns:ArrayOfClientInfo" />
-  <xs:complexType name="Command">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="CommandType" type="xs:int" />
-      <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Command" nillable="true" type="tns:Command" />
 </xs:schema>

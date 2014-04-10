@@ -43,8 +43,6 @@
   <ItemGroup>
     <Compile Include="ClientFactory.cs" />
     <Compile Include="ClientInfo.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="CommandType.cs" />
     <Compile Include="ClientContext.cs" />
     <Compile Include="RoomContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
